@@ -29,14 +29,14 @@ class Day_Statisitcs:
         return (f"\n---------------------\nDay {self.day} \n"
                 f" Critical: {self.initial_critical_patients} -> {self.final_critical_patients} \n"
                 f"- Grave: {self.initial_grave_patients} -> {self.final_grave_patients} \n"
-                f"- Regular: {self.initial_regular_patients} -> {self.final_regular_patients}"
+                f"- Regular: {self.initial_regular_patients} -> {self.final_regular_patients} \n"
                 f"- Critical Patients Cured: {self.critical_patients_cured} \n"
                 f"- Grave Patients Cured: {self.grave_patients_cured} \n"
                 f"- Regular Patients Cured: {self.regular_patients_cured} \n"
                 f"- Critical Patients Died: {self.critical_patients_died} \n"
                 f"- Grave Patients Died: {self.grave_patients_died} \n"
                 f"- Regular Patients Died: {self.regular_patients_died} \n"
-                f"- Assignments: {self.assignments}")
+                f"- Assignments: \n{self.assignments}")
 
 
 
@@ -85,24 +85,30 @@ class Simulation:
         elif patient.status == "critical" and bed.typee == "common":
             return 1
         elif patient.status == "grave" and bed.typee == "ICU":
-            return 2
-        elif patient.status == "grave" and bed.typee == "common":
-            return 3
-        elif patient.status == "regular" and bed.typee == "common":
-            return 4
-        elif patient.status == "regular" and bed.typee == "ICU":
             return 5
+        elif patient.status == "grave" and bed.typee == "common":
+            return 4
+        elif patient.status == "regular" and bed.typee == "common":
+            return 7
+        elif patient.status == "regular" and bed.typee == "ICU":
+            return 8
 
     def assign_beds(self):
         row_ind, col_ind = linear_sum_assignment(self.costs)
         for i in range(len(row_ind)):
             self.patients[row_ind[i]].bed_assigned = self.beds[col_ind[i]]
 
+        #set to None the ones not assigned
+        for i in range(len(self.patients)):
+            if i not in row_ind:
+                self.patients[i].bed_assigned = None
+
+
 
     def add_new_patients(self):
-        new_critical_patients = np.random.poisson(0.1)
-        new_grave_patients = np.random.poisson(0.1)
-        new_regular_patients = np.random.poisson(0.1)
+        new_critical_patients = np.random.poisson(3)
+        new_grave_patients = np.random.poisson(6)
+        new_regular_patients = np.random.poisson(10)
 
         for i in range(new_critical_patients):
             self.patients.append(Patient(self.n_patients, "critical"))
@@ -131,25 +137,34 @@ class Simulation:
             grave_common = 0
             reg_icu = 0
             reg_common = 0
+            crit_none = 0
+            grave_none = 0
+            reg_none = 0
             for i in self.patients:
                 if i.status == "critical":
                     if i.bed_assigned is not None and i.bed_assigned.typee == "ICU":
                         crit_icu += 1
                     elif i.bed_assigned is not None and i.bed_assigned.typee == "common":
                         crit_common += 1
+                    else:
+                        crit_none += 1
                 elif i.status == "grave":
                     if i.bed_assigned is not None and i.bed_assigned.typee == "ICU":
                         grave_icu += 1
                     elif i.bed_assigned is not None and i.bed_assigned.typee == "common":
                         grave_common += 1
+                    else:
+                        grave_none += 1
                 elif i.status == "regular":
                     if i.bed_assigned is not None and i.bed_assigned.typee == "ICU":
                         reg_icu += 1
                     elif i.bed_assigned is not None and i.bed_assigned.typee == "common":
                         reg_common += 1
+                    else:
+                        reg_none += 1
 
 
-            stats.assignments = f"Critical: ICU: {crit_icu}, Common: {crit_common} \nGrave: ICU: {grave_icu}, Common: {grave_common} \nRegular: ICU: {reg_icu}, Common: {reg_common}"
+            stats.assignments = f"Critical: ICU: {crit_icu}, Common: {crit_common}, None: {crit_none} \nGrave: ICU: {grave_icu}, Common: {grave_common}, None: {grave_none} \nRegular: ICU: {reg_icu}, Common: {reg_common}, None: {reg_none} "
 
 
             new_p = []
@@ -180,4 +195,4 @@ class Simulation:
 
 
 
-sim = Simulation(5, 10)
+sim = Simulation(4, 10)
