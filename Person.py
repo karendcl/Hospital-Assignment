@@ -2,21 +2,30 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 import random
 
+#enum for agegroups (kid, young_adult, adult, senior)
+class AgeGroup:
+    kid = 0
+    young_adult = 1
+    adult = 2
+    senior = 3
+
 class Patient:
-    def __init__(self, index, status, bed_assigned=None):
+    def __init__(self, index, status,age_group, bed_assigned=None):
         self.index = index
         self.status = status
         self.bed_assigned = bed_assigned
         self.is_cured = False
         self.is_dead = False
+        self.age_group = age_group
 
     def __str__(self):
-        return f"Patient {self.index} with status {self.status} and bed {self.bed_assigned.typee}" if self.bed_assigned is not 'None' else f"Patient {self.index} with status {self.status} and bed not assigned"
+        return f'{self.status} {self.age_group}'
 
     def interact(self):
         if self.bed_assigned is None:
             return
         x = random.random()
+
         if self.status == 'critical' and self.bed_assigned.typee == 'ICU':
             if x <= 0.2:
                 self.is_cured = True
@@ -54,6 +63,7 @@ class Patient:
                 self.status = 'critical'
             elif 0.7 < x <= 0.9:
                 self.status = 'regular'
+
         elif self.status == 'regular' and self.bed_assigned.typee == 'common':
             if x <= 0.3:
                 self.is_cured = True
