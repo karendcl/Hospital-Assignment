@@ -2,12 +2,6 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 import random
 
-#enum for agegroups (kid, young_adult, adult, senior)
-class AgeGroup:
-    kid = 0
-    young_adult = 1
-    adult = 2
-    senior = 3
 
 class Patient:
     def __init__(self, index, status,age_group, bed_assigned=None):
@@ -90,7 +84,7 @@ class Beds:
         self.typee = typee
 
     def __str__(self):
-        return f"Bed {self.index} of type {self.typee}"
+        return f"Bed type {self.typee}"
 
 class ICU_Bed(Beds):
     def __init__(self, index):

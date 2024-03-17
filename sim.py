@@ -1,10 +1,11 @@
-from Person import Patient, Beds, ICU_Bed, Common_Bed, AgeGroup
+from Person import Patient, Beds, ICU_Bed, Common_Bed
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 import queue
 import random
 
 
+simulat = []
 class Day_Statisitcs:
     def __init__(self, day):
         self.day = day
@@ -86,12 +87,13 @@ class Simulation:
         self.n_patients = n_patients
         self.patients = []
         self.beds = []
+        self.daily_stats = []
         self.costs = np.zeros((n_patients, n_icu_beds + n_common_beds))
         self.simulate()
 
     def generate_patient(self, index):
-        age = np.random.choice(["kid", "young_adult", "adult", "senior"], p=[0.1, 0.3, 0.4, 0.2])
-        status = np.random.choice(["grave", "critical", "regular"], p=[0.25, 0.25, 0.5])
+        age = np.random.choice(["young_adult", "adult", "senior"], p=[0.3, 0.4, 0.3])
+        status = np.random.choice(["grave", "critical", "regular"], p=[0.3, 0.2, 0.5])
         return Patient(index, status, age)
 
     def initialize(self):
@@ -111,20 +113,8 @@ class Simulation:
                 self.costs[i, j] = self.calculate_cost(p, n)
 
     def calculate_cost(self, patient, bed):
-        if patient.age_group == 'kid' and patient.status == "critical" and bed.typee == "ICU":
-            return 1
-        elif patient.age_group == 'kid' and patient.status == "critical" and bed.typee == "common":
-            return 4
-        elif patient.age_group == 'kid' and patient.status == "grave" and bed.typee == "ICU":
-            return 7
-        elif patient.age_group == 'kid' and patient.status == "grave" and bed.typee == "common":
-            return 10
-        elif patient.age_group == 'kid' and patient.status == "regular" and bed.typee == "ICU":
-            return 16
-        elif patient.age_group == 'kid' and patient.status == "regular" and bed.typee == "common":
-            return 13
 
-        elif patient.age_group == 'senior' and patient.status == "critical" and bed.typee == "ICU":
+        if patient.age_group == 'senior' and patient.status == "critical" and bed.typee == "ICU":
             return 1
         elif patient.age_group == 'senior' and patient.status == "critical" and bed.typee == "common":
             return 4
@@ -250,8 +240,18 @@ class Simulation:
             stats.final_grave_patients = sum([1 for i in self.patients if i.status == "grave"])
             stats.final_regular_patients = sum([1 for i in self.patients if i.status == "regular"])
 
-            print(stats)
+            self.daily_stats.append(stats)
 
 
+def start_simulation(icu_beds, common_beds):
+    global simulat
+    try:
+        sim = Simulation(icu_beds, common_beds)
+        simulat = sim.daily_stats
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
-sim = Simulation(4, 10)
+def get_day_statistics(day):
+    return [i.__dict__ for i in simulat if i.day == day][0]
