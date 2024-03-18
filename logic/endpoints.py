@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.get('/')
 async def root():
-    return {'message': 'Hola'}
+    return {}
 
 @app.get("/start_simulation")
 async def start_simulation(icu_beds: int=10, common_beds: int=40):
