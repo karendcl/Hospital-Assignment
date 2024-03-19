@@ -35,6 +35,22 @@ async def start_simulation(icu_beds: int=10, common_beds: int=40):
 async def day_statistics(day:int):
     return sim.get_day_statistics(day)
 
+@app.get("/stats/cured")
+async def cured():
+    return sim.get_cured()
+
+@app.get("/stats/deaths")
+async def deaths():
+    return sim.get_deaths()
+
+@app.get("/stats/better")
+async def better():
+    return sim.get_patients_better()
+
+@app.get("/stats/worse")
+async def worse():
+    return sim.get_patients_worse()
+
 
 
 

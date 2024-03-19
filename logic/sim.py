@@ -255,3 +255,17 @@ def start_simulation(icu_beds, common_beds):
 
 def get_day_statistics(day):
     return [i.__dict__ for i in simulat if i.day == day][0]
+
+def get_deaths():
+    return [x.grave_patients_died + x.critical_patients_died + x.regular_patients_died for x in simulat]
+
+def get_cured():
+    return [x.grave_patients_cured + x.critical_patients_cured + x.regular_patients_cured for x in simulat]
+
+def get_patients_better():
+    return [x.critical_to_grave + x.critical_to_regular + x.grave_to_regular for x in simulat]
+
+def get_patients_worse():
+    return [x.grave_to_critical + x.regular_to_critical + x.regular_to_grave for x in simulat]
+
+
