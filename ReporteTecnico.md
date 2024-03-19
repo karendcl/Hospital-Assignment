@@ -39,10 +39,8 @@ inicializa con un número de pacientes y camas, y se ejecuta durante un número 
 ### 2.2. Modelado de la Dinámica de Pacientes
 
 Los pacientes se generan con diferentes edades y estados de salud iniciales, y su estado de salud puede evolucionar con
-el
-tiempo. Como se generan estas estadisticas principales es con una distribucion uniforme. Se escoge un valor de una lista
-de
-posibles valores con una probabilidad asociada:
+el tiempo. Como se generan estas estadisticas principales es con una distribucion uniforme. Se escoge un valor de una lista
+de posibles valores con una probabilidad asociada:
 
 ```python
 import numpy as np
@@ -95,8 +93,7 @@ El hospital tiene un número limitado de camas UCI y comunes, y los pacientes de
 estado de salud. La asignación de camas se realiza de manera estratégica para maximizar la eficiencia del hospital y
 mejorar los resultados de los pacientes. Primero se crea una matriz de "costos", la cual es una matriz de |p| x |b|,
 donde |p| es la cantidad de pacientes y |b| es la cantidad de camas disponibles, y matriz[i,j] representa el costo de
-asignar
-el paciente i a la cama j. Este costo es una funcion predefinida que usa el tipo de cama, el estado y la de edad de los
+asignar el paciente i a la cama j. Este costo es una funcion predefinida que usa el tipo de cama, el estado y la de edad de los
 pacientes para tomar su decision.
 
 Una vez que se ha creado la matriz de costos, se utiliza el algoritmo de asignación húngaro, también conocido como el
@@ -124,8 +121,7 @@ def assign_beds(self):
 ```
 
 Al final del dia pueden llegar al hospital nuevos pacientes, estos pacientes son generados de la misma forma con
-distribucion
-uniforme que los pacientes iniciales a la simulacion
+distribucion uniforme que los pacientes iniciales a la simulacion
 
 ## 3. Resultados
 
