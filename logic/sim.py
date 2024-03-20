@@ -6,7 +6,7 @@ import random
 
 
 simulat = []
-class Day_Statisitcs:
+class Day_Statistics:
     def __init__(self, day):
         self.day = day
         self.initial_critical_patients = 0
@@ -76,7 +76,7 @@ class Day_Statisitcs:
                 f"- Grave: ICU: {self.grave_ICU}, Common: {self.grave_common}, None: {self.grave_none} \n"
                 f"- Regular: ICU: {self.regular_ICU}, Common: {self.regular_common}, None: {self.regular_none} \n"
                 f"- Assignments: \n"
-                f"{'\n'.join(self.assignments)} \n"
+                # f"{'\n'.join(self.assignments)} \n"
                 f"---------------------\n")
 
 
@@ -195,7 +195,7 @@ class Simulation:
     def simulate(self):
         self.initialize()
         for k in range(30):
-            stats = Day_Statisitcs(k)
+            stats = Day_Statistics(k)
             stats.initial_critical_patients = sum([1 for i in self.patients if i.status == "critical"])
             stats.initial_grave_patients = sum([1 for i in self.patients if i.status == "grave"])
             stats.initial_regular_patients = sum([1 for i in self.patients if i.status == "regular"])

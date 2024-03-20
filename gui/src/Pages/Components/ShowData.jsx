@@ -1,43 +1,61 @@
 
 
 export default function ShowData({day, data}){
+
+    const dataValue1 = [{prop:"Initial Critical Patients:", value: data.initial_critical_patients},
+                        {prop:"Initial Grave Patients:", value: data.initial_grave_patients},
+                        {prop:"Initial Regular Patients:", value: data.initial_regular_patients},
+                        {prop:"New Critical Patients:", value: data.new_critical_patients},
+                        {prop:"New Grave Patients:", value: data.new_grave_patients},
+                        {prop:"New Regular Patients:", value: data.new_regular_patients},
+                        {prop:"Final Critical Patients:", value: data.final_critical_patients},
+                        {prop:"Final Grave Patients:", value: data.final_grave_patients},
+                        {prop:"Final Regular Patients:", value: data.final_regular_patients},
+                        {prop:"Critical Patients Cured:", value: data.critical_patients_cured},
+                        {prop:"Grave Patients Cured:", value: data.grave_patients_cured},
+                        {prop:"Regular Patients Cured:", value: data.regular_patients_cured},
+                        {prop:"Critical Patients Died:", value: data.critical_patients_died},
+                        {prop:"Grave Patients Died:", value: data.grave_patients_died},
+                        {prop:"Regular Patients Died:", value: data.regular_patients_died}]
+
+    const dataValue2 =[{prop:"Critical to Grave:", value: data.critical_to_grave},
+                        {prop:"Critical to Regular:", value: data.critical_to_regular},
+                        {prop:"Grave to Critical:", value: data.grave_to_critical},
+                        {prop:"Grave to Regular:", value: data.grave_to_regular},
+                        {prop:"Regular to Critical:", value: data.regular_to_critical},
+                        {prop:"Regular to Grave:", value: data.regular_to_grave},
+                        {prop:"Critical ICU:", value: data.critical_ICU},
+                        {prop:"Critical Common:", value: data.critical_common},
+                        {prop:"Critical None:", value: data.critical_none},
+                        {prop:"Grave ICU:", value: data.grave_ICU},
+                        {prop:"Grave Common:", value: data.grave_common},
+                        {prop:"Grave None:", value: data.grave_none},
+                        {prop:"Regular ICU:", value: data.regular_ICU},
+                        {prop:"Regular Common:", value: data.regular_common},
+                        {prop:"Regular None:", value: data.regular_none}]
+
+    const dataValue1Mapped = dataValue1.map(x=>
+        <div className="flex flex-row justify-between">
+            <p className="flex font-extrabold font-serif">{x.prop} </p> 
+            <p className="flex font-semibold">{x.value}</p>
+        </div>
+        )
+    const dataValue2Mapped = dataValue2.map(x=>
+         <div className="flex flex-row justify-between">
+            <p className="flex font-extrabold font-serif">{x.prop} </p> 
+            <p className="flex font-semibold">{x.value}</p>
+        </div>
+        )
+
     return(
         <>
-            <h1 className="text-6xl pt-3 pb-8">Day {day}</h1>
-            <div className="flex w-4/5 h-4/5 bg-slate-100 border-2 border-black">
+            <h1 className="text-6xl pt-3 pb-4">Day {day+1}</h1>
+            <div className="flex w-4/5 h-4/5 bg-slate-100 border-2 border-black overflow-auto">
                 <div className="flex flex-col w-1/2 text-lg gap-2 pr-16 pl-16 pt-5">
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Initial Critical Patients: </p> <p className="flex font-semibold">{data.initial_critical_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Initial Grave Patients: </p>    <p className="flex font-semibold">{data.initial_grave_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Initial Regular Patients: </p>  <p className="flex font-semibold">{data.initial_regular_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">New Critical Patients: </p>     <p className="flex font-semibold">{data.new_critical_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">New Grave Patients: </p>        <p className="flex font-semibold">{data.new_grave_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">New Regular Patients: </p>      <p className="flex font-semibold">{data.new_regular_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Final Critical Patients: </p>   <p className="flex font-semibold">{data.final_critical_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Final Grave Patients: </p>      <p className="flex font-semibold">{data.final_grave_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Final Regular Patients: </p>    <p className="flex font-semibold">{data.final_regular_patients}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Critical Patients Cured: </p>   <p className="flex font-semibold">{data.critical_patients_cured}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Grave Patients Cured: </p>      <p className="flex font-semibold">{data.grave_patients_cured}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Regular Patients Cured: </p>    <p className="flex font-semibold">{data.regular_patients_cured}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Critical Patients Died: </p>    <p className="flex font-semibold">{data.critical_patients_died}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Grave Patients Cured: </p>      <p className="flex font-semibold">{data.grave_patients_died}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Regular Patients Cured: </p>    <p className="flex font-semibold">{data.regular_patients_died}</p></div>
+                    {dataValue1Mapped}
                 </div>
                 <div className="flex flex-col w-1/2 text-lg gap-2 pr-16 pl-16 pt-5">
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Critical to Grave: </p>   <p className="flex font-semibold">{data.critical_to_grave}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Critical to Regular: </p> <p className="flex font-semibold">{data.critical_to_regular}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Grave to Critical: </p>   <p className="flex font-semibold">{data.grave_to_critical}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Grave to Regular: </p>    <p className="flex font-semibold">{data.grave_to_regular}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Regular to Critical: </p> <p className="flex font-semibold">{data.regular_to_critical}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Regular to Grave: </p>    <p className="flex font-semibold">{data.regular_to_grave}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Critical ICU: </p>        <p className="flex font-semibold">{data.critical_ICU}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Critical Commom: </p>     <p className="flex font-semibold">{data.critical_common}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Critical None: </p>       <p className="flex font-semibold">{data.critical_none}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Grave ICU: </p>           <p className="flex font-semibold">{data.grave_ICU}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Garve Commom: </p>        <p className="flex font-semibold">{data.grave_common}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Grave None: </p>          <p className="flex font-semibold">{data.grave_none}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Regular ICU: </p>         <p className="flex font-semibold">{data.regular_ICU}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Regular Common: </p>      <p className="flex font-semibold">{data.regular_common}</p></div>
-                    <div className="flex flex-row justify-between"><p className="flex font-extrabold font-serif">Regular None: </p>        <p className="flex font-semibold">{data.regular_none}</p></div>
+                    {dataValue2Mapped}
                 </div>
             </div>
         </>
