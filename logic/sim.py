@@ -271,34 +271,28 @@ def get_patients_worse():
 def get_critical_rundown():
     res = {}
     for i in simulat:
-        at_beginning = i.initial_critical_patients
-        new_patients = i.new_critical_patients
-        cured = i.critical_patients_cured
-        died = i.critical_patients_died
         final = i.final_critical_patients
-        res[i.day] = {"at_beginning": at_beginning, "new_patients": new_patients, "cured": cured, "died": died, "final": final}
+        new = i.new_critical_patients
+        beginning = final - new
+        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
     return res
 
 def get_grave_rundown():
     res = {}
     for i in simulat:
-        at_beginning = i.initial_grave_patients
-        new_patients = i.new_grave_patients
-        cured = i.grave_patients_cured
-        died = i.grave_patients_died
         final = i.final_grave_patients
-        res[i.day] = {"at_beginning": at_beginning, "new_patients": new_patients, "cured": cured, "died": died, "final": final}
+        new = i.new_grave_patients
+        beginning = final - new
+        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
     return res
 
 def get_regular_rundown():
     res = {}
     for i in simulat:
-        at_beginning = i.initial_regular_patients
-        new_patients = i.new_regular_patients
-        cured = i.regular_patients_cured
-        died = i.regular_patients_died
         final = i.final_regular_patients
-        res[i.day] = {"at_beginning": at_beginning, "new_patients": new_patients, "cured": cured, "died": died, "final": final}
+        new = i.new_regular_patients
+        beginning = final - new
+        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
     return res
 
 
