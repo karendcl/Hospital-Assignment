@@ -268,4 +268,31 @@ def get_patients_better():
 def get_patients_worse():
     return [x.grave_to_critical + x.regular_to_critical + x.regular_to_grave for x in simulat]
 
+def get_critical_rundown():
+    res = {}
+    for i in simulat:
+        final = i.final_critical_patients
+        new = i.new_critical_patients
+        beginning = final - new
+        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
+    return res
+
+def get_grave_rundown():
+    res = {}
+    for i in simulat:
+        final = i.final_grave_patients
+        new = i.new_grave_patients
+        beginning = final - new
+        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
+    return res
+
+def get_regular_rundown():
+    res = {}
+    for i in simulat:
+        final = i.final_regular_patients
+        new = i.new_regular_patients
+        beginning = final - new
+        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
+    return res
+
 
