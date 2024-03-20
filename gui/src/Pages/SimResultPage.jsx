@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom"
 import ShowData from "./Components/ShowData"
 import BtnComponent from "./Components/BtnComponent"
 import { BASEURL } from "../Utils/urlUtils"
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 export default function SimResultPage(){
 
@@ -28,12 +30,12 @@ export default function SimResultPage(){
     return(
         <>
             <div className="flex gap-2">
-                <BtnComponent isVisible={!isBellowZero} name={"Back"} day={dayValue-1}/>
+                <BtnComponent isVisible={!isBellowZero} name={"Back"} day={dayValue-1} isInFront={false}><NavigateBeforeIcon></NavigateBeforeIcon></BtnComponent>
                 <div className="flex flex-col items-center w-8/12 h-screen">
                     <Link className=" flex text-xl justify-center items-center bg-black mt-2 text-white w-32 h-10 font-serif" to="/charts/">Charts</Link>
                     <ShowData day={dayValue} data={data}/>
                 </div>
-                <BtnComponent isVisible={isMax} name={"Next"} day={dayValue+1}/>
+                <BtnComponent isVisible={isMax} name={"Next"} day={dayValue+1} isInFront={true}><NavigateNextIcon></NavigateNextIcon></BtnComponent>
             </div>
         </>
     )
