@@ -2,11 +2,11 @@
 
 ## Integrantes
 
-- Karen Dianelis Cantero Lopez C411
-- Luis Alejandro Rodriguez Otero C411
-- Sebastian Suarez Gomez C411
-- Hector Miguel Rodriguez Sosa C411
-- Javier Rodriguez Sanchez C411
+- Karen Dianelis Cantero López C411
+- Luis Alejandro Rodríguez Otero C411
+- Sebastián Suárez Gómez C411
+- Héctor Miguel Rodríguez Sosa C411
+- Javier Rodríguez Sánchez C411
 
 ## 1. Introduccion
 
@@ -28,9 +28,9 @@ Específicamente, la simulación logra los siguientes objetivos:
 - Este proyecto tiene el potencial de proporcionar información valiosa que podría ayudar a los proveedores de atención
   médica a tomar decisiones basadas en datos sobre la asignación de recursos y las estrategias de atención al paciente.
 
-## 2. Metodologia
+## 2. Metodología
 
-### 2.1. Preparacion de la simulacion
+### 2.1. Preparación de la simulación
 
 La simulación se basa en un modelo de eventos discretos, que se ejecuta en un bucle de tiempo. En cada paso de tiempo,
 los eventos ocurren en un orden específico, y el estado del sistema se actualiza en consecuencia. La simulación se
@@ -39,8 +39,8 @@ inicializa con un número de pacientes y camas, y se ejecuta durante un número 
 ### 2.2. Modelado de la Dinámica de Pacientes
 
 Los pacientes se generan con diferentes edades y estados de salud iniciales, y su estado de salud puede evolucionar con
-el tiempo. Como se generan estas estadisticas principales es con una distribucion uniforme. Se escoge un valor de una lista
-de posibles valores con una probabilidad asociada:
+el tiempo. Como se generan estas estadísticas principales es con una distribución uniforme. Se escoge un valor de una
+lista de posibles valores con una probabilidad asociada:
 
 ```python
 import numpy as np
@@ -56,34 +56,34 @@ estocásticos. Lo siguiente es un ejemplo de como se modela la interaccion de un
 ```python
 class Patient:
 
+  ### ....
+
+  def interact(self):
+    import random
+
+    if self.bed_assigned is None:
+      return
+    x = random.random()
+
+    if self.status == 'critical' and self.bed_assigned.typee == 'ICU':
+      if x <= 0.2:
+        self.is_cured = True
+      elif 0.2 < x <= 0.5:
+        self.is_dead = True
+      elif 0.5 < x <= 0.8:
+        self.status = 'grave'
+
+    elif self.status == 'critical' and self.bed_assigned.typee == 'common':
+      if x <= 0.1:
+        self.is_cured = True
+      elif 0.1 < x <= 0.5:
+        self.is_dead = True
+      elif 0.5 < x <= 0.7:
+        self.status = 'grave'
+      elif 0.7 < x <= 0.75:
+        self.status = 'regular'
+
     ### ....
-
-    def interact(self):
-        import random
-
-        if self.bed_assigned is None:
-            return
-        x = random.random()
-
-        if self.status == 'critical' and self.bed_assigned.typee == 'ICU':
-            if x <= 0.2:
-                self.is_cured = True
-            elif 0.2 < x <= 0.5:
-                self.is_dead = True
-            elif 0.5 < x <= 0.8:
-                self.status = 'grave'
-
-        elif self.status == 'critical' and self.bed_assigned.typee == 'common':
-            if x <= 0.1:
-                self.is_cured = True
-            elif 0.1 < x <= 0.5:
-                self.is_dead = True
-            elif 0.5 < x <= 0.7:
-                self.status = 'grave'
-            elif 0.7 < x <= 0.75:
-                self.status = 'regular'
-
-        ### ....
 
 ```
 
@@ -91,37 +91,38 @@ class Patient:
 
 El hospital tiene un número limitado de camas UCI y comunes, y los pacientes deben ser asignados a estas camas según su
 estado de salud. La asignación de camas se realiza de manera estratégica para maximizar la eficiencia del hospital y
-mejorar los resultados de los pacientes. Primero se crea una matriz de "costos", la cual es una matriz de |p| x |b|,
-donde |p| es la cantidad de pacientes y |b| es la cantidad de camas disponibles, y matriz[i,j] representa el costo de
-asignar el paciente i a la cama j. Este costo es una funcion predefinida que usa el tipo de cama, el estado y la de edad de los
-pacientes para tomar su decision.
+mejorar los resultados de los pacientes. Primero se crea una matriz de "costos", la cual es una matriz de `|p|` x `|b|`,
+donde `|p|` es la cantidad de pacientes y `|b|` es la cantidad de camas disponibles, y `matriz[i,j]` representa el costo de
+asignar el paciente i a la cama j. Este costo es una función predefinida que usa el tipo de cama, el estado y la edad
+de los pacientes para tomar su decision.
 
 Una vez que se ha creado la matriz de costos, se utiliza el algoritmo de asignación húngaro, también conocido como el
 algoritmo de asignación óptima, para asignar los pacientes a las camas de manera que se minimice el costo total. Este
-algoritmo garantiza que se encontrará la asignación óptima. Al final de la asignacion los pacientes que no fueron
-asignados a una cama se les asigna None.
+algoritmo garantiza que se encontrará la asignación óptima. Al final de la asignación los pacientes que no fueron
+asignados a una cama se les asigna `None`.
 
 ```python
 from scipy.optimize import linear_sum_assignment
 
 
 def assign_beds(self):
-    assignments = []
-    row_ind, col_ind = linear_sum_assignment(self.costs)
-    for i in range(len(row_ind)):
-        self.patients[row_ind[i]].bed_assigned = self.beds[col_ind[i]]
-        assignments.append(f'{str(self.patients[row_ind[i]])} -> {str(self.beds[col_ind[i]])}')
+  assignments = []
+  row_ind, col_ind = linear_sum_assignment(self.costs)
+  for i in range(len(row_ind)):
+    self.patients[row_ind[i]].bed_assigned = self.beds[col_ind[i]]
+    assignment = f'{str(self.patients[row_ind[i]])} -> {str(self.beds[col_ind[i]])}'
+    assignments.append(assignment)
 
-    # set to None the ones not assigned
-    for i in range(len(self.patients)):
-        if i not in row_ind:
-            self.patients[i].bed_assigned = None
+  # set to None the ones not assigned
+  for i in range(len(self.patients)):
+    if i not in row_ind:
+      self.patients[i].bed_assigned = None
 
-    return assignments
+  return assignments
 ```
 
-Al final del dia pueden llegar al hospital nuevos pacientes, estos pacientes son generados de la misma forma con
-distribucion uniforme que los pacientes iniciales a la simulacion
+Al final del dia pueden llegar al hospital nuevos pacientes, estos pacientes son generados de la misma forma (con
+distribución uniforme) que los pacientes iniciales a la simulación
 
 ## 3. Resultados
 
@@ -130,7 +131,7 @@ curación y las tasas de mortalidad. Al realizar un seguimiento de estas métric
 posibles cuellos de botella y ayudar a los administradores del hospital a identificar estrategias para mejorar la
 eficiencia del hospital.
 
-A continuacion mostramos un tabla con la media, la mediana y la varianza de los datos generados por la simulacion en una
+A continuación mostramos un tabla con la media, la mediana y la varianza de los datos generados por la simulación en una
 de sus iteraciones:
 
 | Metrica                   | Media              | Mediana | Varianza            |
@@ -165,6 +166,15 @@ de sus iteraciones:
 | regular_ICU               | 0.0                | 0.0     | 0.0                 |
 | regular_common            | 11.555555555555555 | 13.0    | 24.691358024691358  |
 | regular_none              | 0.0                | 0.0     | 0.0                 |
+
+Además esto es un sample de un día al azar de una iteración de la simulación:
+
+![Sample de un dia](sample-dia.png)
+
+Y esto es una gráfica de 4 métricas específicas de una iteración completa de la simulación:
+
+![Graphs](graphs.jpg)
+
 
 ## 4. Conclusiones
 
