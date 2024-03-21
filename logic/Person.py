@@ -21,21 +21,23 @@ class Patient:
         x = random.random()
 
         if self.status == 'critical' and self.bed_assigned.typee == 'ICU':
-            if x <= 0.2:
+            if x <= 0.3:
                 self.is_cured = True
-            elif 0.2 < x <= 0.5:
+            elif 0.3 < x <= 0.5:
                 self.is_dead = True
             elif 0.5 < x <= 0.8:
                 self.status = 'grave'
+            elif 0.8 < x <= 0.9:
+                self.status = 'regular'
 
         elif self.status == 'critical' and self.bed_assigned.typee == 'common':
             if x <= 0.1:
                 self.is_cured = True
-            elif 0.1 < x <= 0.5:
+            elif 0.1 < x <= 0.6:
                 self.is_dead = True
-            elif 0.5 < x <= 0.7:
+            elif 0.6 < x <= 0.8:
                 self.status = 'grave'
-            elif 0.7 < x <= 0.75:
+            elif 0.8 < x <= 0.9:
                 self.status = 'regular'
 
         elif self.status == 'grave' and self.bed_assigned.typee == 'ICU':
@@ -59,22 +61,22 @@ class Patient:
                 self.status = 'regular'
 
         elif self.status == 'regular' and self.bed_assigned.typee == 'common':
-            if x <= 0.3:
+            if x <= 0.4:
                 self.is_cured = True
-            elif 0.3 < x <= 0.4:
+            elif 0.4 < x <= 0.5:
                 self.is_dead = True
-            elif 0.4 < x <= 0.45:
+            elif 0.5 < x <= 0.7:
                 self.status = 'critical'
-            elif 0.45 < x <= 0.6:
+            elif 0.7 < x <= 0.9:
                 self.status = 'grave'
         elif self.status == 'regular' and self.bed_assigned.typee == 'ICU':
-            if x <= 0.6:
+            if x <= 0.7:
                 self.is_cured = True
-            elif 0.6 < x <= 0.65:
+            elif 0.7 < x <= 0.75:
                 self.is_dead = True
-            elif 0.65 < x <= 0.7:
+            elif 0.75 < x <= 0.8:
                 self.status = 'critical'
-            elif 0.7 < x <= 0.8:
+            elif 0.8 < x <= 0.9:
                 self.status = 'grave'
 
 

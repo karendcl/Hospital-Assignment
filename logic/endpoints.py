@@ -56,17 +56,7 @@ async def better():
 async def worse():
     return sim.get_patients_worse()
 
-@app.get("/stats/critical")
-async def critical():
-    return sim.get_critical_rundown()
 
-@app.get("/stats/grave")
-async def grave():
-    return sim.get_grave_rundown()
-
-@app.get("/stats/regular")
-async def regular():
-    return sim.get_regular_rundown()
 
 
 

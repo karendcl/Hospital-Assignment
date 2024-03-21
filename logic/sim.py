@@ -1,8 +1,10 @@
 from Person import Patient, Beds, ICU_Bed, Common_Bed
 import numpy as np
+import numpy
 from scipy.optimize import linear_sum_assignment
 import queue
 import random
+import scipy.stats as sc
 
 
 simulat = []
@@ -81,10 +83,11 @@ class Day_Statistics:
 
 
 class Simulation:
-    def __init__(self, n_icu_beds, n_common_beds, n_patients=40):
+    def __init__(self, n_icu_beds, n_common_beds, n_patients=40, lambda_ = 20):
         self.n_icu_beds = n_icu_beds
         self.n_common_beds = n_common_beds
         self.n_patients = n_patients
+        self.lambda_ = lambda_
         self.patients = []
         self.beds = []
         self.daily_stats = []
@@ -173,7 +176,8 @@ class Simulation:
 
 
     def add_new_patients(self):
-        new_p = random.randint(0, 20)
+        #poisson distribution
+        new_p = numpy.random.poisson(self.lambda_)
         new_critical_patients = 0
         new_grave_patients = 0
         new_regular_patients = 0
@@ -243,10 +247,10 @@ class Simulation:
             self.daily_stats.append(stats)
 
 
-def start_simulation(icu_beds, common_beds):
+def start_simulation(icu_beds, common_beds, initial_p, lambda_):
     global simulat
     try:
-        sim = Simulation(icu_beds, common_beds)
+        sim = Simulation(icu_beds, common_beds, 20, 10)
         simulat = sim.daily_stats
         return True
     except Exception as e:
@@ -268,31 +272,6 @@ def get_patients_better():
 def get_patients_worse():
     return [x.grave_to_critical + x.regular_to_critical + x.regular_to_grave for x in simulat]
 
-def get_critical_rundown():
-    res = {}
-    for i in simulat:
-        final = i.final_critical_patients
-        new = i.new_critical_patients
-        beginning = final - new
-        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
-    return res
 
-def get_grave_rundown():
-    res = {}
-    for i in simulat:
-        final = i.final_grave_patients
-        new = i.new_grave_patients
-        beginning = final - new
-        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
-    return res
-
-def get_regular_rundown():
-    res = {}
-    for i in simulat:
-        final = i.final_regular_patients
-        new = i.new_regular_patients
-        beginning = final - new
-        res[i.day] = {'beginning': beginning, 'new': new, 'final': final}
-    return res
 
 
