@@ -8,7 +8,7 @@ export default function ChartsPage() {
         <>
         
         <div className="flex w-full">
-            <div className="flex w-16 h-screen">
+            <div className="flex w-20 h-screen">
                 <Link className="flex w-20 h-8 text-lg bg-black text-center justify-center text-white font-bold" to='/results/0'><p className="text-center">Back</p></Link>
             </div>
             <div className="flex flex-col w-6/12 h-screen overflow-auto">
