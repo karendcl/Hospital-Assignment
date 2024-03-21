@@ -250,7 +250,7 @@ class Simulation:
 def start_simulation(icu_beds, common_beds, initial_p, lambda_):
     global simulat
     try:
-        sim = Simulation(icu_beds, common_beds, 20, 10)
+        sim = Simulation(icu_beds, common_beds, initial_p, lambda_)
         simulat = sim.daily_stats
         return True
     except Exception as e:

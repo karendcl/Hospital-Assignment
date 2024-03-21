@@ -27,8 +27,8 @@ async def root():
 
 
 @app.get("/start_simulation")
-async def start_simulation(icu_beds: int = 10, common_beds: int = 40):
-    sim.start_simulation(icu_beds, common_beds)
+async def start_simulation(icu_beds: int = 10, common_beds: int = 40, lambda_: int = 20, n_patients: int = 20):
+    sim.start_simulation(icu_beds, common_beds, n_patients, lambda_)
     return {"message": "Simulation started"}
 
 
