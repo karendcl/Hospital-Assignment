@@ -2,6 +2,7 @@ import sim as sim
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -15,6 +16,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+static = "/Users/hmrguez/Programming/School/Hospital-Assignment/gui/dist"
+app.mount("/static", StaticFiles(directory=static), name="static")
 
 
 # create endpoint to start simulation. It receives the
@@ -55,6 +60,9 @@ async def better():
 @app.get("/stats/worse")
 async def worse():
     return sim.get_patients_worse()
+
+
+
 
 
 
