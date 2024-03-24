@@ -7,7 +7,7 @@
 
 ```bash
 cd logic
-pip install -r requirements.txt
+venv\Scripts\activate.ps1
 ```
 
 3. Para correr el proyecto ejecute el siguiente comando en la terminal:
